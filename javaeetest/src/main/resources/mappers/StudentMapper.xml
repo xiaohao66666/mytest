@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StudentDao">
+    <resultMap id="studentMap" type="com.bean.Student">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="major" column="major"></result>
+        <result property="classId" column="classId"></result>
+    </resultMap>
+    <resultMap id="dataMap" type="com.bean.Data">
+        <result property="cId" column="classId"></result>
+        <result property="total" column="count"></result>
+    </resultMap>
+    <resultMap id="countMap" type="com.bean.Count">
+        <result property="count" column="count"></result>
+    </resultMap>
+    <select id="findAll" resultMap="studentMap">
+        select * from student
+    </select>
+    <insert id="add">
+        insert into student values(null,#{name},#{age},#{sex},#{major},#{classId})
+    </insert>
+    <update id="update">
+        update student set name=#{name},age=#{age},sex=#{sex},major=#{major},classId=#{classId} where id=#{id}
+    </update>
+    <update id="delete">
+        delete from student where id=#{id}
+    </update>
+    <select id="gettotal" resultMap="dataMap">
+        SELECT classId, COUNT(*) as count FROM student GROUP BY classId
+    </select>
+    <select id="findByName" resultMap="studentMap">
+        select * from student where name=#{name};
+    </select>
+    <select id="page" resultMap="studentMap">
+        select * from student limit #{start},#{end};
+    </select>
+    <select id="getAll" resultType="int">
+        SELECT COUNT(*) FROM student
+    </select>
+</mapper>
